@@ -5,6 +5,12 @@ import {nanoid} from "nanoid"
 export default function App() {
 
   const [dice, setDice] = React.useState(generateAllNewDice())
+//   const [gameOver, setGameOver] = React.useState(false)
+
+
+  const gameOver = dice.every(die => die.isHeld) &&
+    dice.every(die => die.value === dice[0].value)
+  
 
   function generateAllNewDice() {
         return new Array(10)
@@ -28,7 +34,7 @@ export default function App() {
         setDice(prevDie => prevDie.map(
             die => die.id === id ? {...die, isHeld: !die.isHeld} : die
         ))
-        // console.log(id)
+        console.log(id)
     }
 
     const diceElements = dice.map(dieObj =>
@@ -40,11 +46,15 @@ export default function App() {
 
     return (
         <main>
+            <h1 className="title">Tenzies</h1>
+            <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
             <div className="dice-container">
                 {diceElements}
             </div>
 
-            <button className='roll-dice' onClick={RollingDice}>Roll</button>
+            <button className='roll-dice' onClick={RollingDice}>
+                {gameOver ? "New Game" : "Roll"}
+            </button>
         </main>
     )
 }

@@ -5,7 +5,7 @@ import Confetti from 'react-confetti'
 
 export default function App() {
 
-  const [dice, setDice] = React.useState(generateAllNewDice())
+  const [dice, setDice] = React.useState(() => generateAllNewDice())
 //   const [gameOver, setGameOver] = React.useState(false)
 
 
@@ -26,9 +26,12 @@ export default function App() {
     // console.log(generateAllNewDice())
 
     function RollingDice(){
-        setDice(prevDie => prevDie.map(
+        if(!gameOver){
+            setDice(prevDie => prevDie.map(
             die => die.isHeld ? die : {...die, value:Math.ceil(Math.random() * 6)}
         ))
+        } else
+            setDice(generateAllNewDice())
     }
 
     function hold(id){
